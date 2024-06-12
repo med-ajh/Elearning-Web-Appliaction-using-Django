@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content_class %}content-assignments{% endblock %}
+{% block title %}Détails de la Ressource{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>{{ resource.title }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Description:</strong> {{ resource.description }}</p>
+            <p><strong>Matière:</strong> {{ resource.subject }}</p>
+            <p><strong>Niveau:</strong> {{ resource.get_level_display }}</p>
+
+            {% if resource.file %}
+                <p><a href="{{ resource.file.url }}" class="btn btn-primary" target="_blank">Télécharger le fichier</a></p>
+            {% endif %}
+
+            {% if resource.link %}
+                <p><a href="{{ resource.link }}" class="btn btn-primary" target="_blank">Cliquer sur l'article</a></p>
+            {% endif %}
+
+            {% if user.is_superuser or user.profile.is_teacher %}
+                <div class="btn-group mt-2" role="group" aria-label="Actions">
+                    <a href="{% url 'resource_update' resource.id %}" class="btn btn-warning">Modifier</a>
+                    <form method="post" action="{% url 'resource_delete' resource.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-right">
+            <a href="{% url 'resource_list' %}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

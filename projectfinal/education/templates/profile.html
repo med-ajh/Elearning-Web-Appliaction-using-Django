@@ -1,0 +1,56 @@
+<!-- templates/profile.html -->
+{% extends 'base.html' %}
+{% block content_class %}content-profile{% endblock %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Mettre à jour le profil</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" style="margin-bottom: 20px;">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ user_form.username.id_for_label }}">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="{{ user_form.username.id_for_label }}" name="{{ user_form.username.html_name }}" value="{{ user_form.username.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ user_form.email.id_for_label }}">Adresse e-mail</label>
+                            <input type="email" class="form-control" id="{{ user_form.email.id_for_label }}" name="{{ user_form.email.html_name }}" value="{{ user_form.email.value }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Mettre à jour</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Changer le mot de passe</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" style="margin-bottom: 20px;">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ password_form.old_password.id_for_label }}">Ancien mot de passe</label>
+                            <input type="password" class="form-control" id="{{ password_form.old_password.id_for_label }}" name="{{ password_form.old_password.html_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ password_form.new_password1.id_for_label }}">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="{{ password_form.new_password1.id_for_label }}" name="{{ password_form.new_password1.html_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ password_form.new_password2.id_for_label }}">Confirmer le nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="{{ password_form.new_password2.id_for_label }}" name="{{ password_form.new_password2.html_name }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Changer le mot de passe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

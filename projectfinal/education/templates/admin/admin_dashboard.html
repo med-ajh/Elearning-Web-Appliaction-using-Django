@@ -1,0 +1,15 @@
+<!-- admin_dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Tableau de bord administrateur{% endblock %}
+
+
+{% block content %}
+{% include 'dashboard.html' %}
+
+<div class="text-center">
+<h2>Bienvenue sur votre tableau de bord administrateur</h2>
+
+{% include 'dashboard.html' %}
+{% endblock %}

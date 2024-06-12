@@ -1,0 +1,7 @@
+jupyter notebook --notebook-dir="C:\Users\DELL\Desktop\Les Cours Ensi\Big Data et IA\WorkspacesML"
+
+1-import pandas as pd 
+2-df=pd.read_csv('HR-Employee-Attrition.csv ')
+ 3-df
+ 4-df.info()
+ 5-df.describe()

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content_class %}content-assignments{% endblock %}
+{% load static %}
+
+{% block title %}Mes Performances{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Mes Performances</h2>
+    {% if grades %}
+        <img src="{% static graph_path %}" alt="Performance Graph">
+        <h3>Conseils d'amélioration</h3>
+        <p>{{ improvement_advice }}</p>
+    {% else %}
+        <p>Aucune performance enregistrée.</p>
+    {% endif %}
+</div>
+{% endblock %}

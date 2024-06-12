@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content_class %}content-courses{% endblock %}
+
+{% block title %}Liste des Cours{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2>Liste des cours</h2>
+        </div>
+        <div class="col-md-6 text-right">
+            {% if can_create %}
+                <a href="{% url 'course_create' %}" class="btn btn-primary mb-3">Ajouter un cours</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for course in courses %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'course_detail' course.id %}" class="course-title">{{ course.title }}</a>
+                        <span class="badge badge-primary badge-pill">{{ course.get_level_display }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-courses {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 2rem;
+        color: #333;
+    }
+    .course-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #007bff;
+        text-decoration: none;
+    }
+    .course-title:hover {
+        text-decoration: underline;
+    }
+    .badge-primary {
+        background-color: #007bff;
+    }
+</style>

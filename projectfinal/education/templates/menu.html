@@ -1,0 +1,9 @@
+<!-- education/templates/menu.html -->
+<div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">{% if request.user.is_superuser %}Gestion des profils{% else %}Profil{% endif %}</a>
+        </li>
+        <!-- Ajoutez d'autres éléments de menu ici -->
+    </ul>
+</div>

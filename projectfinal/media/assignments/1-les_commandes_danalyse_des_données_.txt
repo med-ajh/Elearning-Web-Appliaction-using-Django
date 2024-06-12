@@ -1,0 +1,5 @@
+1-import pandas as pd 
+2-df=pd.read_csv('HR-Employee-Attrition.csv ')
+ 3-df
+ 4-df.info()
+ 5-df.describe()

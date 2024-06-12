@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content_class %}content-assignments{% endblock %}
+
+{% block title %}Liste des Devoirs{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Liste des devoirs</h2>
+        {% if can_create %}
+            <a href="{% url 'assignment_create' %}" class="btn btn-primary">Ajouter un devoir</a>
+        {% endif %}
+    </div>
+    <ul class="list-group">
+        {% for assignment in assignments %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{% url 'assignment_detail' assignment.id %}">{{ assignment.title }}</a>
+                    <small class="text-muted">(Date limite : {{ assignment.due_date }})</small>
+                </div>
+                {% if request.user.is_superuser or request.user.profile.is_teacher %}
+                    <div>
+                        <a href="{% url 'assignment_update' assignment.id %}" class="btn btn-sm btn-secondary mr-2">Modifier</a>
+                        <form action="{% url 'assignment_delete' assignment.id %}" method="post" class="d-inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+<style>
+    .content-assignments {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+        font-size: 2rem;
+        color: #333;
+    }
+</style>

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content_class %}content-assignments{% endblock %}
+
+{% block title %}Ajouter un Devoir{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Ajouter un Devoir</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">Titre</label>
+                            <input type="text" name="{{ form.title.html_name }}" id="{{ form.title.id_for_label }}" class="form-control" value="{{ form.title.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}">Description</label>
+                            <textarea name="{{ form.description.html_name }}" id="{{ form.description.id_for_label }}" class="form-control">{{ form.description.value }}</textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="{{ form.due_date.id_for_label }}">Date limite</label>
+                                <input type="date" name="{{ form.due_date.html_name }}" id="{{ form.due_date.id_for_label }}" class="form-control" value="{{ form.due_date.value }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="{{ form.course.id_for_label }}">Cours</label>
+                                <select name="{{ form.course.html_name }}" id="{{ form.course.id_for_label }}" class="form-control">
+                                    {% for option in form.course.field.queryset %}
+                                        <option value="{{ option.id }}"{% if form.course.value == option.id %} selected{% endif %}>{{ option.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.file.id_for_label }}">Fichier</label>
+                            <input type="file" name="{{ form.file.html_name }}" id="{{ form.file.id_for_label }}" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Ajouter le devoir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-assignments {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    label {
+        display: block;
+        margin-bottom: .5rem;
+        font-weight: bold;
+    }
+    .btn-primary {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-primary:hover {
+        background-color: #003d80;
+        border-color: #002f61;
+    }
+</style>

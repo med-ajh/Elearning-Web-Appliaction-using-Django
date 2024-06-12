@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content_class %}content-assignments{% endblock %}
+{% block title %}Supprimer le Devoir{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Supprimer le Devoir</h2>
+                </div>
+                <div class="card-body">
+                    <p>Êtes-vous sûr de vouloir supprimer le devoir "<strong>{{ assignment.title }}</strong>" ?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <a href="{% url 'course_detail' assignment.course.id %}" class="btn btn-secondary">Annuler</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-assignments {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-body {
+        padding: 20px;
+    }
+</style>

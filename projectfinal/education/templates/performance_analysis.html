@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content_class %}content-assignments{% endblock %}
+{% load static %}
+
+{% block title %}Analyse des Performances{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Analyse des Performances</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="student_id">Étudiant</label>
+            <select name="student_id" id="student_id" class="form-control">
+                {% for student in students %}
+                    <option value="{{ student.id }}">{{ student.user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Analyser</button>
+    </form>
+    {% if analysis %}
+        <h3>Graphique de Performance</h3>
+        <img src="{% static graph_path %}" alt="Performance Graph">
+        <h3>Conseils d'amélioration</h3>
+        <p>{{ analysis.recommendations }}</p>
+    {% endif %}
+</div>
+{% endblock %}

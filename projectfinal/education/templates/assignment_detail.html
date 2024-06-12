@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content_class %}content-assignments{% endblock %}
+
+{% block title %}Détails du Devoir{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>{{ assignment.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ assignment.description }}</p>
+                    <p><strong>Date limite :</strong> {{ assignment.due_date }}</p>
+                    {% if assignment.file %}
+                        <p><a href="{{ assignment.file.url }}" class="btn btn-info">Télécharger le fichier</a></p>
+                    {% endif %}
+                </div>
+                {% if request.user.is_superuser or request.user.profile.is_teacher %}
+                    <div class="card-footer d-flex justify-content-end">
+                        <a href="{% url 'assignment_update' assignment.id %}" class="btn btn-secondary mr-2">Modifier</a>
+                        <form action="{% url 'assignment_delete' assignment.id %}" method="post" class="d-inline-block">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+            {% if not request.user.is_superuser and not request.user.profile.is_teacher %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Soumettre votre devoir</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary btn-block">Soumettre</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+            {% if submissions %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Soumissions</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for enriched_submission in submissions %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ enriched_submission.submission.student.username }}: 
+                                    <a href="{{ enriched_submission.submission.file.url }}">{{ enriched_submission.submission.file.name }}</a>
+                                    {% if request.user.is_superuser or request.user.profile.is_teacher %}
+                                        <div>
+                                            <a href="{% url 'submission_update' enriched_submission.submission.id %}" class="btn btn-sm btn-secondary mr-2">Modifier</a>
+                                            <form action="{% url 'submission_delete' enriched_submission.submission.id %}" method="post" class="d-inline-block">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                                            </form>
+                                        </div>
+                                        <div class="ml-3">
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="submission" value="{{ enriched_submission.submission.id }}">
+                                                <div class="form-group">
+                                                    <label for="grade">Note</label>
+                                                    <input type="number" step="0.01" class="form-control" name="grade" value="{{ enriched_submission.grade }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="comments">Commentaire</label>
+                                                    <textarea class="form-control" name="comments">{{ enriched_submission.comments }}</textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Soumettre</button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                    {% if not request.user.is_superuser and not request.user.profile.is_teacher and request.user == enriched_submission.submission.student %}
+                                        <div class="ml-3">
+                                            <strong>Note: </strong> {{ enriched_submission.grade }}<br>
+                                            <strong>Commentaire: </strong> {{ enriched_submission.comments }}
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-assignments {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-body, .card-footer {
+        padding: 20px;
+    }
+    .btn-info {
+        color: #fff;
+    }
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
+    }
+</style>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}E-Learning Management System Ensi{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("{% static 'Images/lms8.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        body {
+            padding-top: 56px; /* Height of the navbar */
+        }
+        .navbar {
+            margin-bottom: 0;
+            background-color: #007bff; /* Blue color for the navbar */
+        }
+        .navbar-brand img {
+            height: 60px; /* Height of the logo, increased size */
+            margin-right: 10px; /* Space between logo and text */
+        }
+        .container-fluid {
+            padding-top: 20px;
+        }
+        .sidebar {
+            background-color: #007bff; /* Blue color for the sidebar */
+            padding: 20px;
+            border-radius: 10px;
+            height: 100vh; /* Full height of the viewport */
+            position: fixed; /* Fixed position */
+            top: 56px; /* Below the navbar */
+            left: 0;
+            width: 250px; /* Fixed width for the sidebar */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: #fff; /* White text color */
+        }
+        .user-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .user-info img {
+            height: 100px; /* Height of the logo, increased size */
+            margin-bottom: 20px; /* Space between image and text */
+        }
+        .user-info h5, .user-info h6 {
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .content {
+            margin-left: 270px; /* Sidebar width + some margin */
+            padding-left: 20px;
+            padding-right: 20px;
+            min-height: 80vh; /* Full height of the viewport minus navbar */
+        }
+        .alert-dismissible {
+            display: inline-block;
+        }
+        .alert-center {
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-primary:hover {
+            background-color: #003d80;
+            border-color: #002f61;
+        }
+        .nav-link {
+            color: #fff;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+            background-color: #0056b3; /* Blue background for the nav links */
+        }
+        .nav-link:hover {
+            color: #fff;
+            background-color: #003d80;
+        }
+        .menu-item-profile, .menu-item-courses, .menu-item-assignments, .menu-item-performance, .menu-item-analysis, .menu-item-recommendations {
+            margin-bottom: 15px;
+        }
+        /* Custom content classes */
+        .content-profile, .content-courses, .content-assignments, .content-performance, .content-analysis, .content-recommendations {
+            background-color: #f5f5dc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-left: 300px;
+        }
+        .custom-header {
+            background-color: rgba(218, 165, 32, 0.8); /* Dark yellow background */
+            padding: 10px; /* Increased padding */
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 24px; /* Font size for the title */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <div class="d-flex align-items-center w-100">
+                <a class="navbar-brand mr-auto" href="{% if request.user.is_superuser %}{% url 'admin_dashboard' %}{% elif request.user.profile.is_teacher %}{% url 'teacher_dashboard' %}{% else %}{% url 'student_dashboard' %}{% endif %}">
+                    E-Learning Management System Ensi
+                </a>
+                <ul class="navbar-nav">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="navbar-text mr-3">Connecté en tant que: {{ request.user.username }}</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <div class="user-info">
+                    <img src="{% static 'Images/ENSI.png' %}">
+                    <h5>
+                        Type d'utilisateur: 
+                        {% if request.user.is_superuser %}
+                            Admin
+                        {% elif request.user.profile.is_teacher %}
+                            Enseignant
+                        {% else %}
+                            Étudiant
+                        {% endif %}
+                    </h5>
+                    <h6>
+                        Niveau: 
+                        {% if request.user.profile.level %}
+                            Cycle ingénieur {{ request.user.profile.level }}
+                        {% else %}
+                            Admin
+                        {% endif %}
+                    </h6>
+                </div>
+                <ul class="nav flex-column">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item menu-item-profile">
+                            <a class="nav-link" href="{% url 'profile' %}">Profil</a>
+                        </li>
+                        <li class="nav-item menu-item-courses">
+                            <a class="nav-link" href="{% url 'course_list' %}">Cours</a>
+                        </li>
+                        <li class="nav-item menu-item-assignments">
+                            <a class="nav-link" href="{% url 'assignment_list' %}">Devoirs</a>
+                        </li>
+                        {% if not request.user.profile.is_teacher %}
+                            <li class="nav-item menu-item-performance">
+                                <a class="nav-link" href="{% url 'view_performance' %}">Mes Performances</a>
+                            </li>
+                        {% endif %}
+                        {% if request.user.profile.is_teacher %}
+                            <li class="nav-item menu-item-analysis">
+                                <a class="nav-link" href="{% url 'performance_analysis' %}">Analyse des Performances</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item menu-item-recommendations">
+                            <a class="nav-link" href="{% url 'resource_list' %}">Recommandations</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-9 content {% block content_class %}{% endblock %}">
+                
+                {% if messages %}
+                    <div class="alert-center">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% block content %}
+                <h2>Bienvenue sur votre tableau de bord</h2>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // JavaScript to auto-dismiss alerts after 3 seconds
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert").alert('close');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

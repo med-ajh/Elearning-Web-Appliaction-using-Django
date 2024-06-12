@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content_class %}content-courses{% endblock %}
+
+{% block title %}Détails du Cours{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-4">{{ course.title }}</h2>
+                    <p><strong>Description :</strong> {{ course.description }}</p>
+                    <p><strong>Date de début :</strong> {{ course.start_date }}</p>
+                    <p><strong>Date de fin :</strong> {{ course.end_date }}</p>
+                    <p><strong>Niveau :</strong> {{ course.get_level_display }}</p>
+
+                    {% if course.file %}
+                        <p><strong>Fichier :</strong> <a href="{{ course.file.url }}" download>{{ course.file.name }}</a></p>
+                    {% endif %}
+
+                    {% if request.user.is_superuser or request.user.profile.is_teacher %}
+                        <a href="{% url 'course_update' course.id %}" class="btn btn-warning">Modifier</a>
+                        <form action="{% url 'course_delete' course.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-courses {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 2rem;
+        color: #333;
+    }
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    .card-body p {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    .btn {
+        margin-right: 10px;
+    }
+</style>

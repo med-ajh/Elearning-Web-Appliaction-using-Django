@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Soumissions pour {{ assignment.title }}</h2>
+<ul>
+    {% for submission in submissions %}
+        <li>{{ submission.student.username }}: <a href="{{ submission.file.url }}">{{ submission.file.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

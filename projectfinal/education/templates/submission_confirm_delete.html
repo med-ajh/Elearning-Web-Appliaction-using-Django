@@ -1,0 +1,14 @@
+<!-- templates/submission_confirm_delete.html -->
+{% extends "base.html" %}
+
+{% block title %}Supprimer la Soumission{% endblock %}
+
+{% block content %}
+<h2>Supprimer la Soumission</h2>
+<p>Êtes-vous sûr de vouloir supprimer la soumission ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+    <a href="{% url 'assignment_detail' submission.assignment.id %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

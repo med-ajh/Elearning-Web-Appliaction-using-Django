@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content_class %}content-courses{% endblock %}
+
+{% block title %}Créer/Modifier un Cours{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">{% if course %}Modifier le Cours{% else %}Créer un Cours{% endif %}</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">Titre</label>
+                            <input type="text" class="form-control" id="{{ form.title.id_for_label }}" name="{{ form.title.html_name }}" value="{{ form.title.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}">Description</label>
+                            <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}">{{ form.description.value }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.start_date.id_for_label }}">Date de début</label>
+                            <input type="date" class="form-control" id="{{ form.start_date.id_for_label }}" name="{{ form.start_date.html_name }}" value="{{ form.start_date.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.end_date.id_for_label }}">Date de fin</label>
+                            <input type="date" class="form-control" id="{{ form.end_date.id_for_label }}" name="{{ form.end_date.html_name }}" value="{{ form.end_date.value }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.level.id_for_label }}">Niveau</label>
+                            <select class="form-control" id="{{ form.level.id_for_label }}" name="{{ form.level.html_name }}">
+                                {% for choice in form.level.field.choices %}
+                                    <option value="{{ choice.0 }}"{% if choice.0 == form.level.value %} selected{% endif %}>{{ choice.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="{{ form.file.id_for_label }}">Fichier</label>
+                            <input type="file" class="form-control-file" id="{{ form.file.id_for_label }}" name="{{ form.file.html_name }}">
+                            {% if form.file.value %}
+                                <p class="mt-2">Fichier actuel: <a href="{{ form.file.value.url }}">{{ form.file.value.name }}</a></p>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sauvegarder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .content-courses {
+        background-color: #f5f5dc;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 2rem;
+        color: #333;
+    }
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+</style>

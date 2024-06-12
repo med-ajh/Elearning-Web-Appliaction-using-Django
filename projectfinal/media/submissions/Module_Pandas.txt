@@ -1,0 +1,33 @@
+df.head(): Renvoie les premières lignes d'un DataFrame pour un aperçu rapide des données.
+df.dropna(axis): Supprime les lignes ou les colonnes contenant des valeurs manquantes (NaN) en fonction de l'axe spécifié (0 pour les lignes, 1 pour les colonnes).
+df.groupby(): Groupe les données du DataFrame en fonction des valeurs de colonnes spécifiées pour effectuer des opérations d'agrégation ou d'analyse sur chaque groupe.
+df.shape: Renvoie un tuple représentant le nombre de lignes et de colonnes du DataFrame.
+df.info(): Affiche des informations sur le DataFrame, y compris le type de données, le nombre de valeurs non nulles et l'utilisation de la mémoire.
+df.describe(): Génère des statistiques descriptives pour les colonnes numériques du DataFrame, telles que la moyenne, l'écart type, les valeurs minimales et maximales, ainsi que les quartiles.
+df.loc[] et df.iloc[]: Permet d'accéder aux données dans le DataFrame en utilisant l'index (loc) ou la position (iloc) des lignes et des colonnes.
+df.apply(): Applique une fonction spécifiée à chaque élément ou à chaque ligne/colonne du DataFrame.
+df.merge(): Fusionne deux DataFrames sur la base de colonnes communes.
+df.sort_values(): Trie les données du DataFrame en fonction des valeurs dans une ou plusieurs colonnes.
+df.drop(): Supprime les lignes ou les colonnes spécifiées du DataFrame.
+df.isnull() et df.notnull(): Renvoie un DataFrame de valeurs booléennes indiquant les valeurs manquantes (NaN) ou non manquantes.
+df.pivot_table(): Crée une table pivot à partir des données du DataFrame.
+df.plot(): Trace les données du DataFrame à l'aide de différentes visualisations, comme des graphiques linéaires, des histogrammes, etc.
+
+***************************************
+Exemples : 
+
+df.head(): Par exemple, pour afficher les cinq premières lignes d'un DataFrame nommé df, vous pouvez utiliser df.head().
+df.dropna(axis): Supposons que vous souhaitiez supprimer toutes les lignes contenant des valeurs manquantes dans un DataFrame df, vous pouvez utiliser df.dropna(axis=0) pour supprimer les lignes ou df.dropna(axis=1) pour supprimer les colonnes.
+df.groupby(): Pour regrouper les données d'un DataFrame df par une colonne spécifique, par exemple, la colonne "ville", et calculer la moyenne de chaque groupe, vous pouvez utiliser df.groupby('ville').mean().
+df.shape: Pour connaître le nombre de lignes et de colonnes d'un DataFrame df, vous pouvez utiliser df.shape.
+df.info(): Pour obtenir des informations détaillées sur le DataFrame df, telles que les types de données de chaque colonne, le nombre de valeurs non nulles, etc., vous pouvez utiliser df.info().
+df.describe(): Pour obtenir des statistiques descriptives telles que la moyenne, l'écart type, les quartiles, etc., pour les colonnes numériques du DataFrame df, vous pouvez utiliser df.describe().
+df.loc[] et df.iloc[]: Par exemple, pour accéder à une ligne spécifique du DataFrame df en utilisant son index, vous pouvez utiliser df.loc[2] ou df.iloc[2] pour accéder à la troisième ligne.
+df.apply(): Pour appliquer une fonction spécifique à chaque élément d'une colonne donnée du DataFrame df, vous pouvez utiliser df['colonne'].apply(fonction).
+df.merge(): Pour fusionner deux DataFrames df1 et df2 sur la base d'une colonne commune, par exemple "ID", vous pouvez utiliser pd.merge(df1, df2, on='ID').
+df.sort_values(): Pour trier les données du DataFrame df en fonction des valeurs dans une colonne spécifique, par exemple "age", vous pouvez utiliser df.sort_values(by='age').
+df.drop(): Par exemple, pour supprimer la colonne "adresse" du DataFrame df, vous pouvez utiliser df.drop(columns=['adresse']).
+df.isnull() et df.notnull(): Pour créer un masque booléen indiquant les valeurs manquantes dans le DataFrame df, vous pouvez utiliser df.isnull() ou df.notnull().
+df.pivot_table(): Par exemple, pour créer une table pivot basée sur les colonnes "ville" et "année" avec les valeurs agrégées étant les moyennes des salaires, vous pouvez utiliser df.pivot_table(index='ville', columns='année', values='salaire', aggfunc='mean').
+df.plot(): Pour tracer les données d'une colonne spécifique du DataFrame df, par exemple "ventes", vous pouvez utiliser df['ventes'].plot(kind='hist') pour un histogramme des ventes.
+

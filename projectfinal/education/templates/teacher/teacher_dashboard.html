@@ -1,0 +1,19 @@
+<!-- teacher_dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Bienvenue Enseignant{% endblock %}
+
+{% block sidebar %}
+{% include 'sidebar_student_teacher.html' %}
+{% endblock %}
+
+{% block content %}
+{% include 'dashboard.html' %}
+<div class="text-center">
+<h1>Bienvenue enseignant !</h1>
+{% include 'dashboard.html' %}
+
+{% endblock %}
+
+

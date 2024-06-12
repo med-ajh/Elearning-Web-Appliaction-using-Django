@@ -1,0 +1,8 @@
+1- il faut installer python
+2-utiliser cette commande dans le dossier de project : python -m venv "virt-project1"
+3-se deplacer vers le dossier script et utiliser la commande : activate 
+4-installation de django via la commande : pip install django
+5-il faut creer le projet avec la commande : django-admin startproject "project1"
+6-on demarre le server via la commande : python manage.py runserver
+7-pour supprimer les alertes et creation des roles et d'autres choses automatiquement on utilise la commande :  python manage.py migrate.
+8-apres on crée l'application via la commande : python manage.py startapp "Activities".
